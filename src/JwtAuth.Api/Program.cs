@@ -1,3 +1,5 @@
+using Scalar.AspNetCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -24,14 +26,26 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
+app.UseRouting();
 app.UseCors("AllowAll");
+app.UseHttpsRedirection();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        var api = builder.Configuration.GetSection("Api");
+        var domain = api["Domain"]!;
+        var description = api["Description"];
+        
+        options.Servers = new[] { new ScalarServer(domain, description) };
+    });
 }
 
-app.UseHttpsRedirection();
+app.MapControllers();
 
 var summaries = new[]
 {
