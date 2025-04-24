@@ -1,6 +1,9 @@
 using System.Data;
 using System.Text;
 using System.Text.Json;
+using JwtAuth.Api.App.Https.Controllers;
+using JwtAuth.Api.App.Services.Auth;
+using JwtAuth.Api.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -52,6 +55,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true
         };
     });
+
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 var app = builder.Build();
 
 app.UseRouting();
