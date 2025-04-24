@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +25,12 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddDbContext<AuthDbContext>(options =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+    options.UseSqlServer(connectionString);
+});
 var app = builder.Build();
 
 app.UseRouting();
