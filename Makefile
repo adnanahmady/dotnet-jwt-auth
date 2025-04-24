@@ -18,25 +18,25 @@ setup:
 
 
 up:
-	docker compose up -d ${up-with}
+	@docker compose up -d ${up-with}
 
 down:
-	docker compose down ${down-with}
+	@docker compose down ${down-with}
 
 build:
-	docker compose build ${build-with}
+	@docker compose build ${build-with}
 
 restart:
-	docker compose restart ${restart-with}
+	@docker compose restart ${restart-with}
 
 logs:
-	docker compose logs ${log-with}
+	@docker compose logs ${log-with}
 
 shell:
-	docker compose exec $(call default,${service},backend) $(call default,${run},bash)
+	@docker compose exec $(call default,${service},backend) $(call default,${run},bash)
 
 ps:
-	docker compose ps
+	@docker compose ps
 status: ps
 
 run:
